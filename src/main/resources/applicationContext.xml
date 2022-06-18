@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+
+    <!-- 加入mvc相关内容-->
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
+    <!-- 开启AOP-->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
+    <!--关于拦截器的配置-->
+    <!--<mvc:interceptors>
+        <mvc:interceptor>
+            &lt;!&ndash;/** 包括路径及其子路径&ndash;&gt;
+            &lt;!&ndash;/admin/* 拦截的是/admin/add等等这种 , /admin/add/user不会被拦截&ndash;&gt;
+            &lt;!&ndash;/admin/** 拦截的是/admin/下的所有&ndash;&gt;
+            <mvc:mapping path="/**"/>
+            &lt;!&ndash;bean配置的就是拦截器&ndash;&gt;
+            <bean class="com.qfedu.interceptor.CountRequestInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>-->
+
+
+    <context:component-scan base-package="com.qfedu"/>
+
+    <!--mybatis加入进来-->
+    <!-- 2.数据库连接池 -->
+    <bean id="dataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value=" jdbc:mysql://gz-cynosdbmysql-grp-rfvpjzed.sql.tencentcdb.com:21679/custom?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false"/>
+        <property name="username" value="root"/>
+        <property name="password" value="aSd123456"/>
+    </bean>
+
+
+
+    <!-- 4.配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 注入sqlSessionFactory -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!-- 给出需要扫描Dao接口包 -->
+        <property name="basePackage" value="com.qfedu.mapper"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 配置MyBaties全局配置文件:mybatis-config.xml -->
+        <!--<property name="configLocation" value="classpath:mybatis-config.xml"/>-->
+        <!-- 扫描sql配置文件:mapper需要的xml文件 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+
+</beans>
