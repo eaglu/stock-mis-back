@@ -1,0 +1,27 @@
+server:
+  port: 8080
+#  session-timeout: 30
+#  tomcat.max-threads: 0
+#  tomcat.uri-encoding: UTF-8
+spring:
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: embedded
+      schema: classpath
+      table-name: SPRING_SESSION
+  datasource:
+    url: jdbc:mysql://gz-cynosdbmysql-grp-rfvpjzed.sql.tencentcdb.com:21679/custom?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: aSd123456
+    driverClassName: com.mysql.jdbc.Driver
+mybatis:
+  type-aliases-package: com.qfedu.entity
+  mapper-locations: classpath:mapper/*.xml
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+logging:
+  config: classpath:log4j2.xml
