@@ -5,6 +5,7 @@ import com.qfedu.entity.Goods;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GoodsMapper {
     @Insert("INSERT into goods (name,code,color,size,amount,delete_flag) " +
@@ -72,4 +73,14 @@ public interface GoodsMapper {
     })
     List<Goods> findGoodsAll();
 
+    @MapKey("name")
+    @Select("select distinct name , code as goodsId from goods order by name;")
+    List<Map<String, String>> getGoodsName();
+
+
+    @Select("select distinct color from goods where name = #{name}")
+    List<String> getColor(Goods goods);
+
+    @Select("select distinct size from goods where name = #{name} and color = #{color}")
+    List<String> getSize(Goods goods);
 }
