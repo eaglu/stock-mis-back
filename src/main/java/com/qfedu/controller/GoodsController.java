@@ -67,7 +67,7 @@ public class GoodsController {
             if (rsCount>0){
                 return AjaxResultUtil.ok(rsCount);
             }else {
-                return AjaxResultUtil.fail(null, "商品已存在");
+                return AjaxResultUtil.fail(null, "该商品已存在");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -80,7 +80,11 @@ public class GoodsController {
     public AjaxResult updateGoods(@RequestBody Goods goods) {
         try {
             Integer rsCount = goodsService.updateGoods(goods);
-            return AjaxResultUtil.ok(rsCount);
+            if (rsCount>0){
+                return AjaxResultUtil.ok(rsCount);
+            }else {
+                return AjaxResultUtil.fail(null, "该商品已存在");
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

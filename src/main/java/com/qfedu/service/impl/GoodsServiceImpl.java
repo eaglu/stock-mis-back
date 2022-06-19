@@ -19,7 +19,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Integer insertGoods(Goods goods) {
-        boolean isExist=false;
+        boolean isExist = false;
         List<Goods> list = goodsMapper.findGoodsByName(goods);
         String goodsCode;
         if (list.size() == 0) {
@@ -34,18 +34,17 @@ public class GoodsServiceImpl implements GoodsService {
         }
         goods.setCode(goodsCode);
         goods.setDeleteFlag(0);
-        for (Goods goodsTemp:list){
-            if(goodsTemp.getSize().equals(goods.getSize())
-                    &&goodsTemp.getColor().equals(goods.getColor())
-                    &&goodsTemp.getDeleteFlag()==goods.getDeleteFlag())
-                isExist=true;
-
+        for (Goods goodsTemp : list) {
+            if (goodsTemp.getSize().equals(goods.getSize())
+                    && goodsTemp.getColor().equals(goods.getColor())
+                    && goodsTemp.getDeleteFlag() == goods.getDeleteFlag())
+                isExist = true;
         }
         Integer rsCount;
-        if (isExist){
-            rsCount=0;
-        }else {
-            rsCount= goodsMapper.insertGoods(goods);
+        if (isExist) {
+            rsCount = 0;
+        } else {
+            rsCount = goodsMapper.insertGoods(goods);
         }
         return rsCount;
     }
@@ -53,7 +52,23 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Integer updateGoods(Goods goods) {
-        Integer rsCount = goodsMapper.updateGoods(goods);
+        boolean isExist = false;
+        List<Goods> list = goodsMapper.findGoodsByName(goods);
+        if (list.size() > 0) {
+            goods.setCode(list.get(0).getCode());
+        }
+        for (Goods goodsTemp : list) {
+            if (goodsTemp.getSize().equals(goods.getSize())
+                    && goodsTemp.getColor().equals(goods.getColor())
+                    && goodsTemp.getDeleteFlag() == goods.getDeleteFlag())
+                isExist = true;
+        }
+        Integer rsCount;
+        if (isExist) {
+            rsCount = 0;
+        } else {
+            rsCount = goodsMapper.updateGoods(goods);
+        }
         return rsCount;
     }
 
