@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/goods")
@@ -91,4 +92,39 @@ public class GoodsController {
         return AjaxResultUtil.fail(null, "获取数据异常");
     }
 
+    @RequestMapping("goodsName")
+    @ResponseBody
+    public AjaxResult getGoodsName() {
+        try {
+            List<Map<String, String>> goodsName = goodsService.getGoodsName();
+            return AjaxResultUtil.ok(goodsName);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return AjaxResultUtil.fail(null, "获取数据异常");
+    }
+
+    @RequestMapping("color")
+    @ResponseBody
+    public AjaxResult getColor(@RequestBody Goods goods) {
+        try {
+            List<String> color = goodsService.getColor(goods);
+            return AjaxResultUtil.ok(color);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return AjaxResultUtil.fail(null, "获取数据异常");
+    }
+
+    @RequestMapping("size")
+    @ResponseBody
+    public AjaxResult getSize(@RequestBody Goods goods) {
+        try {
+            List<String> size = goodsService.getSize(goods);
+            return AjaxResultUtil.ok(size);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return AjaxResultUtil.fail(null, "获取数据异常");
+    }
 }
