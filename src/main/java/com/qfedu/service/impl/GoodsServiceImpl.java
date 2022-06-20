@@ -110,9 +110,6 @@ public class GoodsServiceImpl implements GoodsService {
                 && queryGoods.getStartPrice() == 0 && queryGoods.getEndPrice() == Integer.MAX_VALUE) {
             goodsList = goodsMapper.findGoodsAll();
         } else {
-            if (queryGoods.getStartPrice() == 0 && queryGoods.getEndPrice() == Integer.MAX_VALUE) {
-                queryGoods.setEndPrice(0);
-            }
             goodsList = goodsMapper.findGoodsByLike(queryGoods);
         }
         return goodsList;

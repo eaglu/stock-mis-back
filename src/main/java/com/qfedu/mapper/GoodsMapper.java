@@ -50,11 +50,12 @@ public interface GoodsMapper {
     })
     List<Goods> findGoodsByName(Goods goods);
 
-    @Select("SELECT * FROM goods WHERE name like CONCAT('%',#{name},'%')" +
-            "or code like CONCAT('%',#{code},'%') " +
-            "or color like CONCAT('%',#{color},'%')" +
-            "or price between #{startPrice} and #{endPrice}" +
-            "or size=#{size}")
+    @Select({"<script>"
+            + "SELECT * FROM goods WHERE price between #{startPrice} and #{endPrice}" +
+            "<when test='name != null'> and name like CONCAT('%',#{name},'%') </when>" +
+            "<when test='code != null'> and code like CONCAT('%',#{code},'%') </when>" +
+            "<when test='color != null'> and color like CONCAT('%',#{color},'%') </when>" +
+            "<when test='size != null'> and size=#{size} </when> </script>"})
     @Results({
             @Result(id = true, column = "id", property = "id"),
             @Result(column = "code", property = "code"),
