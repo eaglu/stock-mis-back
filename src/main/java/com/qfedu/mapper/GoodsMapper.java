@@ -2,20 +2,22 @@ package com.qfedu.mapper;
 
 
 import com.qfedu.entity.Goods;
+import com.qfedu.entity.QueryGoods;
 import org.apache.ibatis.annotations.*;
+import org.springframework.context.annotation.ScopeMetadata;
 
 import java.util.List;
 import java.util.Map;
 
 public interface GoodsMapper {
-    @Insert("INSERT into goods (name,code,color,size,amount,delete_flag) " +
-            "VALUES(#{name},#{code},#{color},#{size},#{amount}," +
+    @Insert("INSERT into goods (name,code,color,size,price,amount,delete_flag) " +
+            "VALUES(#{name},#{code},#{color},#{size},#{price},#{amount}," +
             "#{deleteFlag})")
     Integer insertGoods(Goods goods);
 
-    @Update("UPDATE goods SET name =#{name},code=#{code}," +
-            "color=#{color},size=#{size,}," +
-            "amount=#{amount} WHERE id=#{id}")
+    @Update("UPDATE goods SET name =#{name},code=#{code}" +
+            ",color=#{color},size=#{size,},amount=#{amount}" +
+            ",price=#{price} WHERE id=#{id}")
     Integer updateGoods(Goods goods);
 
     @Update("UPDATE goods SET delete_flag=1 WHERE id=#{id}")
@@ -29,6 +31,7 @@ public interface GoodsMapper {
             @Result(column = "name", property = "name"),
             @Result(column = "color", property = "color"),
             @Result(column = "size", property = "size"),
+            @Result(column = "price", property = "price"),
             @Result(column = "amount", property = "amount"),
             @Result(column = "delete_flag", property = "deleteFlag")
     })
@@ -41,25 +44,29 @@ public interface GoodsMapper {
             @Result(column = "name", property = "name"),
             @Result(column = "color", property = "color"),
             @Result(column = "size", property = "size"),
+            @Result(column = "price", property = "price"),
             @Result(column = "amount", property = "amount"),
             @Result(column = "delete_flag", property = "deleteFlag")
     })
     List<Goods> findGoodsByName(Goods goods);
 
-    @Select("SELECT * FROM goods WHERE name like CONCAT('%',#{name},'%')" +
-            "or code like CONCAT('%',#{code},'%') " +
-            "or color like CONCAT('%',#{color},'%')" +
-            "or size=#{size}")
+    @Select({"<script>"
+            + "SELECT * FROM goods WHERE price between #{startPrice} and #{endPrice}" +
+            "<when test='name != null'> and name like CONCAT('%',#{name},'%') </when>" +
+            "<when test='code != null'> and code like CONCAT('%',#{code},'%') </when>" +
+            "<when test='color != null'> and color like CONCAT('%',#{color},'%') </when>" +
+            "<when test='size != null'> and size=#{size} </when> </script>"})
     @Results({
             @Result(id = true, column = "id", property = "id"),
             @Result(column = "code", property = "code"),
             @Result(column = "name", property = "name"),
             @Result(column = "color", property = "color"),
+            @Result(column = "price", property = "price"),
             @Result(column = "size", property = "size"),
             @Result(column = "amount", property = "amount"),
             @Result(column = "delete_flag", property = "deleteFlag")
     })
-    List<Goods> findGoodsByLike(Goods goods);
+    List<Goods> findGoodsByLike(QueryGoods queryGoods);
 
     @Select("SELECT * FROM goods")
     @Results({
@@ -68,6 +75,7 @@ public interface GoodsMapper {
             @Result(column = "name", property = "name"),
             @Result(column = "color", property = "color"),
             @Result(column = "size", property = "size"),
+            @Result(column = "price", property = "price"),
             @Result(column = "amount", property = "amount"),
             @Result(column = "delete_flag", property = "deleteFlag")
     })

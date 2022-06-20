@@ -1,6 +1,7 @@
 package com.qfedu.service;
 
 import com.qfedu.entity.Goods;
+import com.qfedu.entity.QueryGoods;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ public interface GoodsService {
     Integer insertGoods(Goods goods);
 
     Integer deleteGoods(Integer id);
-    List<Goods> findGoodsByLike(Goods goods);
+    List<Goods> findGoodsByLike(QueryGoods queryGoods);
 
     List<Goods> findGoodsAll();
 

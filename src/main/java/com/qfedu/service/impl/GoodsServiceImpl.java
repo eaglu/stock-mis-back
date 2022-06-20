@@ -1,8 +1,10 @@
 package com.qfedu.service.impl;
 
 import com.qfedu.entity.Goods;
+import com.qfedu.entity.QueryGoods;
 import com.qfedu.mapper.GoodsMapper;
 import com.qfedu.service.GoodsService;
+import com.sun.jmx.snmp.agent.SnmpGenericObjectServer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Integer insertGoods(Goods goods) {
-        boolean isExist=false;
+        boolean isExist = false;
         List<Goods> list = goodsMapper.findGoodsByName(goods);
         String goodsCode;
         if (list.size() == 0) {
@@ -35,18 +37,17 @@ public class GoodsServiceImpl implements GoodsService {
         }
         goods.setCode(goodsCode);
         goods.setDeleteFlag(0);
-        for (Goods goodsTemp:list){
-            if(goodsTemp.getSize().equals(goods.getSize())
-                    &&goodsTemp.getColor().equals(goods.getColor())
-                    &&goodsTemp.getDeleteFlag()==goods.getDeleteFlag())
-                isExist=true;
-
+        for (Goods goodsTemp : list) {
+            if (goodsTemp.getSize().equals(goods.getSize())
+                    && goodsTemp.getColor().equals(goods.getColor())
+                    && goodsTemp.getDeleteFlag() == goods.getDeleteFlag())
+                isExist = true;
         }
         Integer rsCount;
-        if (isExist){
-            rsCount=0;
-        }else {
-            rsCount= goodsMapper.insertGoods(goods);
+        if (isExist) {
+            rsCount = 0;
+        } else {
+            rsCount = goodsMapper.insertGoods(goods);
         }
         return rsCount;
     }
@@ -54,7 +55,24 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Integer updateGoods(Goods goods) {
-        Integer rsCount = goodsMapper.updateGoods(goods);
+        boolean isExist = false;
+        List<Goods> list = goodsMapper.findGoodsByName(goods);
+        list.removeIf(goods1 -> goods1.getId() == goods.getId());
+        if (list.size() > 0) {
+            goods.setCode(list.get(0).getCode());
+        }
+        for (Goods goodsTemp : list) {
+            if (goodsTemp.getSize().equals(goods.getSize())
+                    && goodsTemp.getColor().equals(goods.getColor())
+                    && goodsTemp.getDeleteFlag() == goods.getDeleteFlag())
+                isExist = true;
+        }
+        Integer rsCount;
+        if (isExist) {
+            rsCount = 0;
+        } else {
+            rsCount = goodsMapper.updateGoods(goods);
+        }
         return rsCount;
     }
 
@@ -70,24 +88,29 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> findGoodsByLike(Goods goods) {
+    public List<Goods> findGoodsByLike(QueryGoods queryGoods) {
         List<Goods> goodsList;
-        if (StringUtils.isBlank(goods.getName())) {
-            goods.setName(null);
+        if (StringUtils.isBlank(queryGoods.getName())) {
+            queryGoods.setName(null);
         }
-        if (StringUtils.isBlank(goods.getCode())) {
-            goods.setCode(null);
+        if (StringUtils.isBlank(queryGoods.getCode())) {
+            queryGoods.setCode(null);
         }
-        if (StringUtils.isBlank(goods.getColor())) {
-            goods.setColor(null);
+        if (StringUtils.isBlank(queryGoods.getColor())) {
+            queryGoods.setColor(null);
         }
-        if (StringUtils.isBlank(goods.getSize())) {
-            goods.setSize(null);
+        if (StringUtils.isBlank(queryGoods.getSize())) {
+            queryGoods.setSize(null);
         }
-        if (goods.getCode() == null && goods.getName() == null && goods.getColor() == null && goods.getSize() == null) {
+        if (queryGoods.getEndPrice()==0){
+            queryGoods.setEndPrice(Integer.MAX_VALUE);
+        }
+        if (queryGoods.getCode() == null && queryGoods.getName() == null
+                && queryGoods.getColor() == null && queryGoods.getSize() == null
+                && queryGoods.getStartPrice() == 0 && queryGoods.getEndPrice() == Integer.MAX_VALUE) {
             goodsList = goodsMapper.findGoodsAll();
         } else {
-            goodsList = goodsMapper.findGoodsByLike(goods);
+            goodsList = goodsMapper.findGoodsByLike(queryGoods);
         }
         return goodsList;
     }
