@@ -23,7 +23,8 @@ public class UserServiceImpl implements UserService {
         userCondition.setUsername(user.getUsername());
         List<User> list = userMapper.select(userCondition);
         for (User dbUser : list) {
-            if (dbUser.getPassword().equals(DigestUtil.md5Hex(user.getPassword()).toUpperCase()))
+            if (dbUser.getPassword().equals(DigestUtil.md5Hex(user.getPassword()).toUpperCase())
+                    && dbUser.getDeleteFlag() == 0)
                 return dbUser;
         }
         throw new RuntimeException("用户名或密码错误！");
@@ -79,8 +80,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Integer restore(User user) {
+        user.setDeleteFlag(0);
+        return userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
     public Integer reset(User user) {
         user.setPassword(DigestUtil.md5Hex(DEFAULT_PASSWORD).toUpperCase());
         return userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public User selectByUserName(String username) {
+        User user = new User();
+        List<User> list = userMapper.selectAll();
+        for (User user1 : list) {
+            if (user1.getUsername().equals(username))
+                user = user1;
+        }
+        return user;
     }
 }

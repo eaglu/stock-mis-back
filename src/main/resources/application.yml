@@ -4,8 +4,14 @@ server:
 #  tomcat.max-threads: 0
 #  tomcat.uri-encoding: UTF-8
 spring:
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: embedded
+      schema: classpath
+      table-name: SPRING_SESSION
   datasource:
-    url: jdbc:mysql://gz-cynosdbmysql-grp-rfvpjzed.sql.tencentcdb.com:21679/custom?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false;serverTimezone=GMT+8
+    url: jdbc:mysql://gz-cynosdbmysql-grp-rfvpjzed.sql.tencentcdb.com:21679/custom?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
     password: aSd123456
     driverClassName: com.mysql.jdbc.Driver

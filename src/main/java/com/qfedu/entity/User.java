@@ -2,20 +2,22 @@ package com.qfedu.entity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.util.Date;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-@Table(name = "user")
-public class User {
+@Table(name = "t_user")
+public class User implements Serializable {
     @Id
     private Integer id;
     private String username;
     private String password;
-    @Transient //Transient指该字段不与数据库字段做对应
-    private String token;
-    private String nickname;
-    private String avatar;
-    private Date ts;
+    private String email;
+    private String company;
+    private Integer userFlag;
+    private Integer goodsFlag;
+    private Integer galleryFlag;
+    private Integer galleryInfoFlag;
+    private Integer deleteFlag;
 
     public Integer getId() {
         return id;
@@ -41,36 +43,75 @@ public class User {
         this.password = password;
     }
 
-    public String getToken() {
-        return token;
+    public String getEmail() {
+        return email;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-
-    public String getNickname() {
-        return nickname;
+    public String getCompany() {
+        return company;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public Integer getUserFlag() {
+        return userFlag;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setUserFlag(Integer userFlag) {
+        this.userFlag = userFlag;
     }
 
-    public Date getTs() {
-        return ts;
+    public Integer getGoodsFlag() {
+        return goodsFlag;
     }
 
-    public void setTs(Date ts) {
-        this.ts = ts;
+    public void setGoodsFlag(Integer goodsFlag) {
+        this.goodsFlag = goodsFlag;
+    }
+
+    public Integer getGalleryFlag() {
+        return galleryFlag;
+    }
+
+    public void setGalleryFlag(Integer galleryFlag) {
+        this.galleryFlag = galleryFlag;
+    }
+
+    public Integer getGalleryInfoFlag() {
+        return galleryInfoFlag;
+    }
+
+    public void setGalleryInfoFlag(Integer galleryInfoFlag) {
+        this.galleryInfoFlag = galleryInfoFlag;
+    }
+
+    public Integer getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", company='" + company + '\'' +
+                ", userFlag=" + userFlag +
+                ", goodsFlag=" + goodsFlag +
+                ", galleryFlag=" + galleryFlag +
+                ", galleryInfoFlag=" + galleryInfoFlag +
+                ", deleteFlag=" + deleteFlag +
+                '}';
     }
 }
