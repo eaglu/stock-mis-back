@@ -37,7 +37,7 @@ public class RepoController {
 
     @RequestMapping("insertRepo")
     @ResponseBody
-    public AjaxResult deleteGoods(@RequestBody Repo repo) {
+    public AjaxResult insertGoods(@RequestBody Repo repo) {
         try{
             Integer rsCount= repoService.insertGoods(repo);
             if(rsCount>0){
