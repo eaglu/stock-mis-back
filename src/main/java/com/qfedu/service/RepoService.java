@@ -1,15 +1,19 @@
 package com.qfedu.service;
 
 import com.qfedu.entity.Repo;
-import com.qfedu.entity.User;
 
 import java.util.List;
 
 public interface RepoService {
+    Integer insertGoods(Repo repo);
 
-    List<Repo> list(Repo quertCondition);
+    Integer updateRepo(Repo repo);
+    Integer deleteRepo(Integer id);
 
-    Integer add(Repo entity);
+    List<Repo> findRepoLikeName(Repo repo);
 
-    List<Repo> repos();
+    Repo findRepoById(Repo repo);
+
+    List<Repo> findRepoAll();
+
 }
