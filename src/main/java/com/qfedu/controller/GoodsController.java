@@ -6,6 +6,7 @@ import com.qfedu.base.AjaxResult;
 import com.qfedu.base.AjaxResultUtil;
 import com.qfedu.base.PageQuery;
 import com.qfedu.entity.Goods;
+import com.qfedu.entity.QueryGoods;
 import com.qfedu.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,7 @@ public class GoodsController {
 
     @RequestMapping("findGoodsByLike")
     @ResponseBody
-    public AjaxResult findGoodsByLike(@RequestBody PageQuery<Goods> goodsPageQuery) {
+    public AjaxResult findGoodsByLike(@RequestBody PageQuery<QueryGoods> goodsPageQuery) {
 //        if (Integer.toString(goodsPageQuery.getQueryCondition().getSize()))
             Page page = PageHelper.offsetPage(goodsPageQuery.getStartRow(), goodsPageQuery.getLimit());
         try {
