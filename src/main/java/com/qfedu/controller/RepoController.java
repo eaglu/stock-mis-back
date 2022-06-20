@@ -7,7 +7,6 @@ import com.qfedu.base.AjaxResult;
 import com.qfedu.base.AjaxResultUtil;
 import com.qfedu.base.PageQuery;
 import com.qfedu.entity.Repo;
-import com.qfedu.entity.User;
 import com.qfedu.service.RepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,39 +22,68 @@ public class RepoController {
     @Autowired
     private RepoService repoService;
 
-    @RequestMapping("list")
+    @RequestMapping("findRepoAll")
     @ResponseBody
-    public AjaxResult list(@RequestBody PageQuery<Repo> repoPageQuery) {
-        //在controller就将分页相关数据设置到PageHelper中，在使用mybatis执行查询时会自动对查询语句进行拦截,增加分页相关条件
-        Page page = PageHelper.offsetPage(repoPageQuery.getStartRow(), repoPageQuery.getLimit());
+    public AjaxResult findRepoAll(@RequestBody PageQuery<Repo> repositoryPageQuery) {
+        Page page = PageHelper.offsetPage(repositoryPageQuery.getStartRow(), repositoryPageQuery.getLimit());
         try {
-            List<Repo> repoList = repoService.list(repoPageQuery.getQueryCondition());
-            return AjaxResultUtil.pageOK(page.getTotal(), repoList);
-        } catch (Exception ex) {
+            List<Repo> repositoryList= repoService.findRepoAll();
+            return AjaxResultUtil.pageOK(page.getTotal(), repositoryList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return AjaxResultUtil.fail(null, "获取数据异常");
+    }
+
+    @RequestMapping("insertRepo")
+    @ResponseBody
+    public AjaxResult insertGoods(@RequestBody Repo repo) {
+        try{
+            Integer rsCount= repoService.insertGoods(repo);
+            if(rsCount>0){
+                return AjaxResultUtil.ok(rsCount);
+            }else {
+                return AjaxResultUtil.fail(null, "该仓库已存在");
+            }
+        }catch (Exception ex){
             ex.printStackTrace();
         }
         return AjaxResultUtil.fail(null, "获取数据异常");
     }
 
-    @RequestMapping("add")
+    @RequestMapping("findRepo")
     @ResponseBody
-    public AjaxResult add(@RequestBody Repo entity) {
+    public  AjaxResult findRepoLikeName(@RequestBody PageQuery<Repo> repositoryPageQuery) {
+        Page page = PageHelper.offsetPage(repositoryPageQuery.getStartRow(), repositoryPageQuery.getLimit());
         try {
-            Integer rsCount = repoService.add(entity);
-            return AjaxResultUtil.ok(rsCount);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            List<Repo> repositoryList= repoService.findRepoLikeName(repositoryPageQuery.getQueryCondition());
+//            repositoryList.removeIf(repository -> repository.getDeleteFlag()==1);
+            return AjaxResultUtil.pageOK(page.getTotal(), repositoryList);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return AjaxResultUtil.fail(null, "获取数据异常");
     }
 
-    @RequestMapping("repos")
+
+    @RequestMapping("deleteRepo")
     @ResponseBody
-    public AjaxResult nameList(){
-        try {
-            List<Repo> repos = repoService.repos();
-            return AjaxResultUtil.ok(repos);
-        } catch (Exception ex) {
+    public AjaxResult deleteGoods(@RequestBody Integer id) {
+        Integer rsCount= repoService.deleteRepo(id);
+        return AjaxResultUtil.ok(rsCount);
+    }
+
+    @RequestMapping("updateRepo")
+    @ResponseBody
+    public AjaxResult updateRepo(@RequestBody Repo repo){
+        try{
+            Integer rsCount= repoService.updateRepo(repo);
+            if(rsCount>0){
+                return AjaxResultUtil.ok(rsCount);
+            }else {
+                return AjaxResultUtil.fail(null, "仓库已存在");
+            }
+        }catch (Exception ex){
             ex.printStackTrace();
         }
         return AjaxResultUtil.fail(null, "获取数据异常");

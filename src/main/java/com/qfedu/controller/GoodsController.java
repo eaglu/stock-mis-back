@@ -6,6 +6,7 @@ import com.qfedu.base.AjaxResult;
 import com.qfedu.base.AjaxResultUtil;
 import com.qfedu.base.PageQuery;
 import com.qfedu.entity.Goods;
+import com.qfedu.entity.QueryGoods;
 import com.qfedu.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,7 @@ public class GoodsController {
 
     @RequestMapping("findGoodsByLike")
     @ResponseBody
-    public AjaxResult findGoodsByLike(@RequestBody PageQuery<Goods> goodsPageQuery) {
+    public AjaxResult findGoodsByLike(@RequestBody PageQuery<QueryGoods> goodsPageQuery) {
 //        if (Integer.toString(goodsPageQuery.getQueryCondition().getSize()))
             Page page = PageHelper.offsetPage(goodsPageQuery.getStartRow(), goodsPageQuery.getLimit());
         try {
@@ -68,7 +69,7 @@ public class GoodsController {
             if (rsCount>0){
                 return AjaxResultUtil.ok(rsCount);
             }else {
-                return AjaxResultUtil.fail(null, "商品已存在");
+                return AjaxResultUtil.fail(null, "该商品已存在");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -81,7 +82,11 @@ public class GoodsController {
     public AjaxResult updateGoods(@RequestBody Goods goods) {
         try {
             Integer rsCount = goodsService.updateGoods(goods);
-            return AjaxResultUtil.ok(rsCount);
+            if (rsCount>0){
+                return AjaxResultUtil.ok(rsCount);
+            }else {
+                return AjaxResultUtil.fail(null, "该商品已存在");
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
