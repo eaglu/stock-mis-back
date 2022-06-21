@@ -102,6 +102,13 @@ public class GoodsServiceImpl implements GoodsService {
         if (StringUtils.isBlank(queryGoods.getSize())) {
             queryGoods.setSize(null);
         }
+        if (queryGoods.getEndPrice()!=0&&queryGoods.getStartPrice()!=0){
+            if (queryGoods.getEndPrice()<queryGoods.getStartPrice()){
+                double temp=queryGoods.getStartPrice();
+                queryGoods.setStartPrice(queryGoods.getEndPrice());
+                queryGoods.setEndPrice(temp);
+            }
+        }
         if (queryGoods.getEndPrice()==0){
             queryGoods.setEndPrice(Integer.MAX_VALUE);
         }
