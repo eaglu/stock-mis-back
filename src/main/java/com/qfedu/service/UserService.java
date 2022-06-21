@@ -6,10 +6,12 @@ import java.util.List;
 
 public interface UserService {
     User login(User user);
-
+    Integer register(User user);
     List<User> list(User queryCondition);
-
     Integer add(User user);
-
-    List<String> getCompanies();
+    Integer edit(User userCondition);
+    Integer delete(User user);
+    Integer restore(User user);
+    Integer reset(User user);
+    User selectByUserName(String username);
 }

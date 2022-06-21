@@ -5,9 +5,7 @@ import com.qfedu.base.AjaxResult
 import com.qfedu.base.AjaxResultUtil
 import com.qfedu.base.PageQuery
 import com.qfedu.entity.Detail
-import com.qfedu.entity.Goods
 import com.qfedu.service.DetailService
-import com.qfedu.service.GoodsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestBody

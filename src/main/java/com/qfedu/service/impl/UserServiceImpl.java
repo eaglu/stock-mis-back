@@ -1,10 +1,6 @@
 package com.qfedu.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
-import com.github.pagehelper.PageHelper;
 import com.qfedu.entity.User;
 import com.qfedu.mapper.UserMapper;
 import com.qfedu.service.UserService;
@@ -12,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,19 +19,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(User user) {
-
         User userCondition = new User();
         userCondition.setUsername(user.getUsername());
         List<User> list = userMapper.select(userCondition);
-        System.out.println(user.getPassword());
-        if (list.size() > 0) {
-            User dbUser = list.get(0);
-            //数据库的md5与传入数据md5编码进行对比
-            if (dbUser.getPassword().equals(DigestUtil.md5Hex(user.getPassword()).toUpperCase())) {
+        for (User dbUser : list) {
+            if (dbUser.getPassword().equals(DigestUtil.md5Hex(user.getPassword()).toUpperCase())
+                    && dbUser.getDeleteFlag() == 0)
                 return dbUser;
-            }
         }
-        throw new RuntimeException("用户名或密码不存在！");
+        throw new RuntimeException("用户名或密码错误！");
+    }
+
+    @Override
+    public Integer register(User user) {
+        List<User> list = userMapper.selectAll();
+        for (User user1 : list) {
+            if (user.getUsername().equals(user1.getUsername()))
+                throw new RuntimeException("用户名已存在！");
+            if (user.getEmail().equals(user1.getEmail()))
+                throw new RuntimeException("此邮箱已注册！");
+        }
+        user.setPassword(DigestUtil.md5Hex(user.getPassword()).toUpperCase());
+        return userMapper.insert(user);
     }
 
     @Override
@@ -45,23 +49,56 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isBlank(userCondition.getUsername())) {
             userCondition.setUsername(null);
         }
-        if (StringUtils.isBlank(userCondition.getNickname())) {
-            userCondition.setNickname(null);
+        if (StringUtils.isBlank(userCondition.getEmail())) {
+            userCondition.setEmail(null);
         }
-        List list = userMapper.select(userCondition);
-        return list;
+        return userMapper.select(userCondition);
     }
 
     @Override
     public Integer add(User user) {
-        user.setTs(new Date());
+        List<User> list =  userMapper.selectAll();
+        for (User user1 : list) {
+            if (user.getUsername().equals(user1.getUsername()))
+                throw new RuntimeException("用户已存在！");
+        }
         user.setPassword(DigestUtil.md5Hex(DEFAULT_PASSWORD).toUpperCase());
-        Integer rsCount = userMapper.insert(user);
-        return rsCount;
+        user.setUserFlag(0);
+        user.setDeleteFlag(0);
+        return userMapper.insert(user);
     }
 
     @Override
-    public List<String> getCompanies() {
-        return userMapper.getCompanies();
+    public Integer edit(User userCondition) {
+        return userMapper.updateByPrimaryKey(userCondition);
+    }
+
+    @Override
+    public Integer delete(User user) {
+        user.setDeleteFlag(1);
+        return userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public Integer restore(User user) {
+        user.setDeleteFlag(0);
+        return userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public Integer reset(User user) {
+        user.setPassword(DigestUtil.md5Hex(DEFAULT_PASSWORD).toUpperCase());
+        return userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public User selectByUserName(String username) {
+        User user = new User();
+        List<User> list = userMapper.selectAll();
+        for (User user1 : list) {
+            if (user1.getUsername().equals(username))
+                user = user1;
+        }
+        return user;
     }
 }
