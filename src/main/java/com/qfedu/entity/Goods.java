@@ -2,9 +2,8 @@ package com.qfedu.entity;
 
 import javax.persistence.*;
 
-@Table(name = "goods")
 public class Goods {
-    @Id
+
     private int id;
     private String name;
     private String code;

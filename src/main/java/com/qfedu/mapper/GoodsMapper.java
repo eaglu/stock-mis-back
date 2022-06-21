@@ -4,7 +4,6 @@ package com.qfedu.mapper;
 import com.qfedu.entity.Goods;
 import com.qfedu.entity.QueryGoods;
 import org.apache.ibatis.annotations.*;
-import org.springframework.context.annotation.ScopeMetadata;
 
 import java.util.List;
 import java.util.Map;
@@ -15,8 +14,8 @@ public interface GoodsMapper {
             "#{deleteFlag})")
     Integer insertGoods(Goods goods);
 
-    @Update("UPDATE goods SET name =#{name},code=#{code}" +
-            ",color=#{color},size=#{size,},amount=#{amount}" +
+    @Update("UPDATE goods SET code=#{code},color=#{color}" +
+            ",size=#{size,},amount=#{amount}" +
             ",price=#{price} WHERE id=#{id}")
     Integer updateGoods(Goods goods);
 

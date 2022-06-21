@@ -37,6 +37,7 @@ public class GoodsServiceImpl implements GoodsService {
         }
         goods.setCode(goodsCode);
         goods.setDeleteFlag(0);
+        goods.setAmount(0);
         for (Goods goodsTemp : list) {
             if (goodsTemp.getSize().equals(goods.getSize())
                     && goodsTemp.getColor().equals(goods.getColor())

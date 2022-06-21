@@ -29,8 +29,6 @@ public class GoodsController {
         Page page = PageHelper.offsetPage(goodsPageQuery.getStartRow(), goodsPageQuery.getLimit());
         try {
             List<Goods> goodsList = goodsService.findGoodsAll();
-//            goodsList.removeIf(goods -> goods.getDeleteFlag() == 1);
-//            page.setTotal(goodsList.size());
             return AjaxResultUtil.pageOK(page.getTotal(), goodsList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,12 +39,9 @@ public class GoodsController {
     @RequestMapping("findGoodsByLike")
     @ResponseBody
     public AjaxResult findGoodsByLike(@RequestBody PageQuery<QueryGoods> goodsPageQuery) {
-//        if (Integer.toString(goodsPageQuery.getQueryCondition().getSize()))
             Page page = PageHelper.offsetPage(goodsPageQuery.getStartRow(), goodsPageQuery.getLimit());
         try {
             List<Goods> goodsList = goodsService.findGoodsByLike(goodsPageQuery.getQueryCondition());
-//            goodsList.removeIf(goods -> goods.getDeleteFlag() == 1);
-//            page.setTotal(goodsList.size());
             return AjaxResultUtil.pageOK(page.getTotal(), goodsList);
         } catch (Exception e) {
             e.printStackTrace();
