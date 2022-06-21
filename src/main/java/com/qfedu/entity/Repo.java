@@ -1,6 +1,9 @@
 package com.qfedu.entity;
 
-public class Repo {
+import com.qfedu.controller.RepoController;
+import com.qfedu.service.RepoService;
+
+public class Repo{
     private int id;
     private String name;
 

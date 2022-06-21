@@ -29,7 +29,7 @@ public interface RepoMapper {
     })
     Repo findRepoById(Repo repo);
 
-    @Select("SELECT * FROM repository WHERE name=#{name}")
+    @Select("SELECT * FROM repo WHERE name=#{name}")
     @Results({
             @Result(id = true, column = "id", property = "id"),
             @Result(column = "name", property = "name"),

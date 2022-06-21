@@ -5,7 +5,7 @@ import com.qfedu.entity.Repo;
 import java.util.List;
 
 public interface RepoService {
-    Integer insertGoods(Repo repo);
+    Integer insertRepo(Repo repo);
 
     Integer updateRepo(Repo repo);
     Integer deleteRepo(Integer id);
