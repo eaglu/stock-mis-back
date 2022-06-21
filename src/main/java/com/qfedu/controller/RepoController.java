@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/repo")
-public class RepoController {
+public class RepoController{
     @Autowired
     private RepoService repoService;
 
