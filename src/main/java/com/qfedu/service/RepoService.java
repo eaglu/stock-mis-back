@@ -9,7 +9,7 @@ public interface RepoService {
 
     Integer updateRepo(Repo repo);
     Integer deleteRepo(Integer id);
-
+    public Integer recoverRepo(Integer id);
     List<Repo> findRepoLikeName(Repo repo);
 
     Repo findRepoById(Repo repo);

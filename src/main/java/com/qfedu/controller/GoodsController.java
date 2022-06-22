@@ -55,6 +55,12 @@ public class GoodsController {
         Integer rsCount = goodsService.deleteGoods(id);
         return AjaxResultUtil.ok(rsCount);
     }
+    @RequestMapping("recoverGoods")
+    @ResponseBody
+    public AjaxResult recoverGoods(@RequestBody Integer id) {
+        Integer rsCount = goodsService.recoverGoods(id);
+        return AjaxResultUtil.ok(rsCount);
+    }
 
     @RequestMapping("/insertGoods")
     @ResponseBody
