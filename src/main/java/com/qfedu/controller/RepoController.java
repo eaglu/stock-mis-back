@@ -73,6 +73,12 @@ public class RepoController{
         return AjaxResultUtil.ok(rsCount);
     }
 
+    @RequestMapping("recoverRepo")
+    @ResponseBody
+    public AjaxResult recoverRepo(@RequestBody Integer id) {
+        Integer rsCount= repoService.recoverRepo(id);
+        return AjaxResultUtil.ok(rsCount);
+    }
     @RequestMapping("updateRepo")
     @ResponseBody
     public AjaxResult updateRepo(@RequestBody Repo repo){

@@ -21,6 +21,8 @@ public interface GoodsMapper {
 
     @Update("UPDATE goods SET delete_flag=1 WHERE id=#{id}")
     Integer deleteGoods(Integer id);
+    @Update("UPDATE goods SET delete_flag=0 WHERE id=#{id}")
+    Integer recoverGoods(Integer id);
 
 
     @Select("SELECT * FROM goods WHERE id=#{id}")

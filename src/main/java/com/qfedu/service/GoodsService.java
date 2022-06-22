@@ -16,6 +16,7 @@ public interface GoodsService {
     Integer insertGoods(Goods goods);
 
     Integer deleteGoods(Integer id);
+    Integer recoverGoods(Integer id);
     List<Goods> findGoodsByLike(QueryGoods queryGoods);
 
     List<Goods> findGoodsAll();
