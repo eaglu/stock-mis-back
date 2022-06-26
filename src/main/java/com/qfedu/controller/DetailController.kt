@@ -5,6 +5,7 @@ import com.qfedu.base.AjaxResult
 import com.qfedu.base.AjaxResultUtil
 import com.qfedu.base.PageQuery
 import com.qfedu.entity.Detail
+import com.qfedu.entity.DetailSearch
 import com.qfedu.service.DetailService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -20,7 +21,7 @@ class DetailController {
 
     @RequestMapping("/list")
     @ResponseBody
-    fun list(@RequestBody detailQuery: PageQuery<Detail>): AjaxResult {
+    fun list(@RequestBody detailQuery: PageQuery<DetailSearch>): AjaxResult {
         val page = PageHelper.offsetPage<Any>(detailQuery.startRow,detailQuery.limit)
         try {
             val detailList = detailService.list(detailQuery.queryCondition)
@@ -48,6 +49,30 @@ class DetailController {
     fun edit(@RequestBody entity: Detail): AjaxResult {
         try {
             val rsCount: Int = detailService.edit(entity)
+            return AjaxResultUtil.ok(rsCount)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        return AjaxResultUtil.fail(null, "获取数据异常")
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    fun delete(@RequestBody entity: Detail): AjaxResult {
+        try {
+            val rsCount: Int = detailService.delete(entity)
+            return AjaxResultUtil.ok(rsCount)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        return AjaxResultUtil.fail(null, "获取数据异常")
+    }
+
+    @RequestMapping("/recover")
+    @ResponseBody
+    fun recover(@RequestBody entity: Detail): AjaxResult {
+        try {
+            val rsCount: Int = detailService.recover(entity)
             return AjaxResultUtil.ok(rsCount)
         } catch (ex: Exception) {
             ex.printStackTrace()

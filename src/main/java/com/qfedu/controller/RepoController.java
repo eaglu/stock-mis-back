@@ -65,6 +65,18 @@ public class RepoController{
         return AjaxResultUtil.fail(null, "获取数据异常");
     }
 
+    @RequestMapping("findRepoById")
+    @ResponseBody
+    public  AjaxResult findRepoById(@RequestBody Repo repo) {
+        try {
+            Repo repoNew= repoService.findRepoById(repo);
+            return AjaxResultUtil.ok(repoNew);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return AjaxResultUtil.fail(null, "获取数据异常");
+    }
+
 
     @RequestMapping("deleteRepo")
     @ResponseBody
@@ -72,7 +84,12 @@ public class RepoController{
         Integer rsCount= repoService.deleteRepo(id);
         return AjaxResultUtil.ok(rsCount);
     }
-
+    @RequestMapping("recoverRepo")
+    @ResponseBody
+    public AjaxResult recoverRepo(@RequestBody Integer id) {
+        Integer rsCount= repoService.recoverRepo(id);
+        return AjaxResultUtil.ok(rsCount);
+    }
     @RequestMapping("updateRepo")
     @ResponseBody
     public AjaxResult updateRepo(@RequestBody Repo repo){

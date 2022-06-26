@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -85,6 +86,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateByPrimaryKey(user);
     }
 
+
     @Override
     public Integer reset(User user) {
         user.setPassword(DigestUtil.md5Hex(DEFAULT_PASSWORD).toUpperCase());
@@ -92,6 +94,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<String> getCompanyList() {
+        return userMapper.getCompanyList();
+    }
+
+    @Override
+    public List<Map<String, Integer>> getUserIdList() {
+        return userMapper.getUserIdList();
+    }
     public User selectByUserName(String username) {
         User user = new User();
         List<User> list = userMapper.selectAll();

@@ -18,6 +18,9 @@ public interface RepoMapper {
             "WHERE id=#{id}")
     Integer deleteRepo(Integer id);
 
+    @Update("UPDATE repo SET delete_flag=0 " +
+            "WHERE id=#{id}")
+    Integer recoverRepo(Integer id);
 
 
     @Select("SELECT * FROM repo WHERE id=#{id}")

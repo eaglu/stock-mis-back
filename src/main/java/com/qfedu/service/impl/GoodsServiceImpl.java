@@ -4,7 +4,6 @@ import com.qfedu.entity.Goods;
 import com.qfedu.entity.QueryGoods;
 import com.qfedu.mapper.GoodsMapper;
 import com.qfedu.service.GoodsService;
-import com.sun.jmx.snmp.agent.SnmpGenericObjectServer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,6 +88,13 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public Integer recoverGoods(Integer id){
+        Integer rsCount=goodsMapper.recoverGoods(id);
+        return rsCount;
+    }
+
+
+    @Override
     public List<Goods> findGoodsByLike(QueryGoods queryGoods) {
         List<Goods> goodsList;
         if (StringUtils.isBlank(queryGoods.getName())) {
@@ -143,5 +149,10 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<String> getSize(Goods goods) {
         return goodsMapper.getSize(goods);
+    }
+
+    @Override
+    public Goods getGoods(Goods queryCondition) {
+        return goodsMapper.getGoods(queryCondition);
     }
 }

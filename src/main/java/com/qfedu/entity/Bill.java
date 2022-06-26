@@ -1,14 +1,9 @@
 package com.qfedu.entity;
 
-import com.qfedu.base.TimeLimit;
-import tk.mybatis.mapper.annotation.LogicDelete;
-
 import javax.persistence.Column;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
 
-@Table(name = "t_bill")
 public class Bill {
     @Id
     private Integer id;
@@ -24,7 +19,7 @@ public class Bill {
     @Column(name = "gallery_id")
     private Integer galleryId;
 
-    @Column(name = "operator_id")
+    @Column(name = "user_id")
     private Integer operatorId;
 
     @Column(name = "deleted")

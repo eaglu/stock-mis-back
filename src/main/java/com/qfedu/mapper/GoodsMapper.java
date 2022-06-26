@@ -14,13 +14,16 @@ public interface GoodsMapper {
             "#{deleteFlag})")
     Integer insertGoods(Goods goods);
 
-    @Update("UPDATE goods SET code=#{code},color=#{color}" +
+    @Update("UPDATE goods SET name=#{name},code=#{code},color=#{color}" +
             ",size=#{size,},amount=#{amount}" +
             ",price=#{price} WHERE id=#{id}")
     Integer updateGoods(Goods goods);
 
     @Update("UPDATE goods SET delete_flag=1 WHERE id=#{id}")
     Integer deleteGoods(Integer id);
+
+    @Update("UPDATE goods SET delete_flag=0 WHERE id=#{id}")
+    Integer recoverGoods(Integer id);
 
 
     @Select("SELECT * FROM goods WHERE id=#{id}")
@@ -81,7 +84,7 @@ public interface GoodsMapper {
     List<Goods> findGoodsAll();
 
     @MapKey("name")
-    @Select("select distinct name , code as goodsId from goods order by name;")
+    @Select("select distinct name , code as goodsId from goods order by name")
     List<Map<String, String>> getGoodsName();
 
 
@@ -90,4 +93,8 @@ public interface GoodsMapper {
 
     @Select("select distinct size from goods where name = #{name} and color = #{color}")
     List<String> getSize(Goods goods);
+
+    @Select("select * from goods where name= #{name} and color = #{color} and size = #{size}")
+    Goods getGoods(Goods queryCondition);
+
 }

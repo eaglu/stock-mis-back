@@ -3,6 +3,7 @@ package com.qfedu.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 
 @Table(name = "detail")
@@ -10,29 +11,34 @@ public class Detail {
     @Id
     private Integer id;
     @Column(name = "goods_id")
-    private String goodsId;
-    @Column(name = "goods_name")
-    private String goodsName;
-    private String color;
-    private BigDecimal size;
-    private Long amount;
+    private Integer goodsId;
+
+    private Integer amount;
+
     @Column(name = "bill_id")
     private String billId;
 
-    public Integer getId() {
-        return id;
+    private Integer deleted;
+
+    @Column(name = "goods_code")
+    private String goodsCode;
+
+    @Column(name = "goods_name")
+    private String goodsName;
+
+    @Column(name = "goods_size")
+    private String goodsSize;
+
+    @Column(name = "goods_color")
+    private String goodsColor;
+
+
+    public String getGoodsCode() {
+        return goodsCode;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(String goodsId) {
-        this.goodsId = goodsId;
+    public void setGoodsCode(String goodsCode) {
+        this.goodsCode = goodsCode;
     }
 
     public String getGoodsName() {
@@ -43,27 +49,53 @@ public class Detail {
         this.goodsName = goodsName;
     }
 
-    public String getColor() {
-        return color;
+    public String getGoodsSize() {
+        return goodsSize;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setGoodsSize(String goodsSize) {
+        this.goodsSize = goodsSize;
     }
 
-    public BigDecimal getSize() {
-        return size;
+    public String getGoodsColor() {
+        return goodsColor;
     }
 
-    public void setSize(BigDecimal size) {
-        this.size = size;
+    public void setGoodsColor(String goodsColor) {
+        this.goodsColor = goodsColor;
     }
 
-    public Long getAmount() {
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Integer goodsId) {
+        this.goodsId = goodsId;
+    }
+
+
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 
@@ -80,9 +112,6 @@ public class Detail {
         return "Detail{" +
                 "id=" + id +
                 ", goodsId='" + goodsId + '\'' +
-                ", goodsName='" + goodsName + '\'' +
-                ", color='" + color + '\'' +
-                ", size=" + size +
                 ", amount=" + amount +
                 ", billId='" + billId + '\'' +
                 '}';

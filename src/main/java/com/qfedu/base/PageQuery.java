@@ -2,8 +2,8 @@ package com.qfedu.base;
 
 
 public class PageQuery<T> {
-    private Integer startRow;//起始行数
-    private Integer limit;//要查询的结果行数
+    private Integer startRow;
+    private Integer limit;
     private T queryCondition;
 
     public Integer getStartRow() {

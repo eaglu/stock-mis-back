@@ -1,13 +1,8 @@
 package com.qfedu.test;
 
 import com.qfedu.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
-import javax.annotation.Resources;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Test {
 

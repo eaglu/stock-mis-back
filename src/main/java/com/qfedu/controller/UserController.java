@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -101,6 +103,19 @@ public class UserController {
         return AjaxResultUtil.fail(null, "获取数据异常");
     }
 
+    @RequestMapping("companies")
+    @ResponseBody
+    public AjaxResult companies() {
+        try {
+            List<String> companies = userService.getCompanyList();
+            return AjaxResultUtil.ok(companies);
+        } catch (Exception ex) {
+        }
+        return AjaxResultUtil.fail(null, "获取数据异常");
+    }
+
+
+
     @RequestMapping("restore")
     @ResponseBody
     public AjaxResult restore(@RequestBody User user) {
@@ -132,6 +147,18 @@ public class UserController {
             User user = userService.selectByUserName(username);
             return AjaxResultUtil.ok(user);
         } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return AjaxResultUtil.fail(null, "获取数据异常");
+    }
+
+    @RequestMapping("userIdList")
+    @ResponseBody
+    public AjaxResult getUserIdList(){
+        try{
+            List<Map<String, Integer>> userIdList = userService.getUserIdList();
+            return AjaxResultUtil.ok(userIdList);
+        }catch (Exception ex) {
             ex.printStackTrace();
         }
         return AjaxResultUtil.fail(null, "获取数据异常");

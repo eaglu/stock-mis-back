@@ -28,7 +28,11 @@ public class RepoServiceImpl implements RepoService {
         Integer rsCount = repoMapper.deleteRepo(id);
         return rsCount;
     }
-
+    @Override
+    public Integer recoverRepo(Integer id) {
+        Integer rsCount = repoMapper.recoverRepo(id);
+        return rsCount;
+    }
 
     @Override
     public Repo findRepoById(Repo repo) {
@@ -37,7 +41,7 @@ public class RepoServiceImpl implements RepoService {
 
 
     @Override
-    public Integer insertGoods(Repo repo) {
+    public Integer insertRepo(Repo repo) {
         Integer rsCount = 0;
         List<Repo> list = repoMapper.findRepoByName(repo);
         list.removeIf(goods -> goods.getDeleteFlag() == 1);

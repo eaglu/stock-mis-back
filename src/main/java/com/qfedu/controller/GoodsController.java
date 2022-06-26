@@ -55,7 +55,12 @@ public class GoodsController {
         Integer rsCount = goodsService.deleteGoods(id);
         return AjaxResultUtil.ok(rsCount);
     }
-
+    @RequestMapping("recoverGoods")
+    @ResponseBody
+    public AjaxResult recoverGoods(@RequestBody Integer id) {
+        Integer rsCount = goodsService.recoverGoods(id);
+        return AjaxResultUtil.ok(rsCount);
+    }
     @RequestMapping("/insertGoods")
     @ResponseBody
     public AjaxResult insertGoods(@RequestBody Goods goods) {
@@ -118,6 +123,18 @@ public class GoodsController {
         try {
             List<String> size = goodsService.getSize(goods);
             return AjaxResultUtil.ok(size);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return AjaxResultUtil.fail(null, "获取数据异常");
+    }
+
+    @RequestMapping("getGoods")
+    @ResponseBody
+    public AjaxResult getGoods(@RequestBody Goods queryCondition) {
+        try {
+            Goods goods = goodsService.getGoods(queryCondition);
+            return AjaxResultUtil.ok(goods);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

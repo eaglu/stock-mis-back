@@ -4,11 +4,10 @@ import com.github.pagehelper.PageHelper
 import com.qfedu.base.AjaxResult
 import com.qfedu.base.AjaxResultUtil
 import com.qfedu.base.PageQuery
-import com.qfedu.entity.Detail
 import com.qfedu.entity.InBill
-import com.qfedu.entity.InBillSearch
+import com.qfedu.entity.OutBill
 import com.qfedu.entity.OutBillSearch
-import com.qfedu.service.InBillService
+import com.qfedu.service.OutBillService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestBody
@@ -16,17 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
-@RequestMapping("/inbill")
-class InBillController {
+@RequestMapping("/outbill")
+class OutBillController {
     @Autowired
-    lateinit var inBillService: InBillService
+    lateinit var billService: OutBillService
 
     @RequestMapping("/list")
     @ResponseBody
-    fun list(@RequestBody billQuery: PageQuery<InBillSearch>): AjaxResult {
+    fun list(@RequestBody billQuery: PageQuery<OutBillSearch>): AjaxResult {
         val page = PageHelper.offsetPage<Any>(billQuery.startRow,billQuery.limit)
         try {
-            val billList = inBillService.list(billQuery.queryCondition)
+            val billList = billService.list(billQuery.queryCondition)
             return AjaxResultUtil.pageOK(page.total, billList)
         } catch (e : Exception) {
             e.printStackTrace()
@@ -36,9 +35,9 @@ class InBillController {
 
     @RequestMapping("/add")
     @ResponseBody
-    fun add(@RequestBody entity: InBill): AjaxResult {
+    fun add(@RequestBody entity: OutBill): AjaxResult {
         try {
-            val rsCount: Int = inBillService.add(entity)
+            val rsCount: Int = billService.add(entity)
             return AjaxResultUtil.ok(rsCount)
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -48,9 +47,9 @@ class InBillController {
 
     @RequestMapping("edit")
     @ResponseBody
-    fun edit(@RequestBody entities: List<InBill>): AjaxResult {
+    fun edit(@RequestBody entities: List<OutBill>): AjaxResult {
         try {
-            val rsCount: Int = inBillService.edit(entities)
+            val rsCount: Int = billService.edit(entities)
             return AjaxResultUtil.ok(rsCount)
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -60,9 +59,9 @@ class InBillController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    fun delete(@RequestBody entity: InBill): AjaxResult {
-            entity.deleted = 1
-            val rsCount: Int = inBillService.delete(entity)
+    fun delete(@RequestBody entity: OutBill): AjaxResult {
+        entity.deleted = 1
+        val rsCount: Int = billService.delete(entity)
         return if(rsCount!=0) {
             AjaxResultUtil.ok(rsCount)
         } else {
@@ -72,9 +71,9 @@ class InBillController {
 
     @RequestMapping("/recover")
     @ResponseBody
-    fun recover(@RequestBody entity: InBill): AjaxResult {
+    fun recover(@RequestBody entity: OutBill): AjaxResult {
         try {
-            val rsCount: Int = inBillService.recover(entity)
+            val rsCount: Int = billService.recover(entity)
             return AjaxResultUtil.ok(rsCount)
         } catch (ex: Exception) {
             ex.printStackTrace()

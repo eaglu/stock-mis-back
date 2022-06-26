@@ -16,6 +16,7 @@ public interface GoodsService {
     Integer insertGoods(Goods goods);
 
     Integer deleteGoods(Integer id);
+    Integer recoverGoods(Integer id);
     List<Goods> findGoodsByLike(QueryGoods queryGoods);
 
     List<Goods> findGoodsAll();
@@ -25,4 +26,6 @@ public interface GoodsService {
     List<String> getColor(Goods goods);
 
     List<String> getSize(Goods goods);
+
+    Goods getGoods(Goods goods);
 }
